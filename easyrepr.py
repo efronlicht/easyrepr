@@ -1,8 +1,8 @@
-# -*- coding: utf-8 -*-
+
 """
-Created on Thu Mar  9 16:03:11 2017
-@author: efron
-Python 3.6.0
+easyrepr.py provides a class decorator that tries to create self-documenting
+__repr__ such that eval(repr(x)) == repr(x) where possible.BaseException
+Python 3.6.0 and up only
 """
 
 from itertools import chain
