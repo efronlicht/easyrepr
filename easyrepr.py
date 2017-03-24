@@ -15,17 +15,26 @@ def easyrepr(cls):
     
     """
     _cls_new = cls.__new__
-    def _repr(self):
+    def _easyrepr_repr(self):
+        """ 
+		automatic __repr__ created by the easyrepr decorator. takes the form 
+		cls(*args, **kwargs), where *args and **kwargs are captured during _EasyRepr_new
+		"""
         return self._easyrepr
-    def _new(cls, *args, **kwargs):
-        instance = _cls_new(cls)
+    def _easyrepr_new(cls, *args, **kwargs):
+        """
+		replacement _new__ created by the easyerpr decorator. captures arguments
+		during instance creation and stores their reprs in a string, to be returned
+		when _EassyRepr__repr is called.
+		"""
+        instance  = _cls_new(cls)
         argstr = (f'{arg!r}' for arg in args)
         kwargstr = (f'{arg} = {kwargs[arg]!r}' for arg in kwargs)
         args = ', '.join(chain(argstr, kwargstr))
         instance._easyrepr = f'{cls.__name__}({args})'
         return instance
-    cls.__new__ = _new
-    cls.__repr__ = _repr
+    cls.__new__ = _easyrepr_new
+    cls.__repr__ = _easyrepr_repr
     return cls
 
 
